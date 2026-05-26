@@ -7,8 +7,12 @@ import "./RagChat.css";
 
 const CONVERSATION_ID_KEY = "rag_conversation_id";
 
+function getExistingConversationId() {
+  return localStorage.getItem(CONVERSATION_ID_KEY);
+}
+
 function getOrCreateConversationId() {
-  const cached = localStorage.getItem(CONVERSATION_ID_KEY);
+  const cached = getExistingConversationId();
   if (cached) return cached;
   const id = crypto.randomUUID();
   localStorage.setItem(CONVERSATION_ID_KEY, id);
@@ -34,6 +38,12 @@ export default function RagChat() {
 
   // Load history on mount
   useEffect(() => {
+    // First visit: no existing conversation → skip history fetch for instant load
+    if (!getExistingConversationId()) {
+      setHistoryLoading(false);
+      return;
+    }
+
     if (_historyFetchInFlight) return;
     _historyFetchInFlight = true;
 
