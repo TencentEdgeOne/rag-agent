@@ -2,6 +2,10 @@
 
 基于 **React + Vite**（前端）和 **OpenAI Agents SDK**（Python 后端）构建的企业级 RAG（检索增强生成）智能体，部署在 **EdgeOne Makers** 上。系统将 PDF 文档处理为本地知识库，并提供带引用溯源的聊天问答界面。
 
+## 部署
+
+[![使用 EdgeOne Pages 部署](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://console.cloud.tencent.com/edgeone/makers/new?template=rag-agent&from=within&fromAgent=1&agentLang=python)
+
 ## 功能特性
 
 - **RAG 引用溯源** — 回答基于知识库文档，附带来源页码引用

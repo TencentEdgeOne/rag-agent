@@ -2,10 +2,10 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "agents": {
-    "timeout": 900,
+    "timeout": 300,
     "framework": "openai-sdk",
     "sandbox": {
-      "timeout": 900
+      "timeout": 300
     }
   }
 }

@@ -2,6 +2,10 @@
 
 An enterprise RAG (Retrieval-Augmented Generation) agent built with **React + Vite** (frontend) and **OpenAI Agents SDK** (Python backend) on **EdgeOne Makers**. The system processes PDF documents into a local knowledge base and provides a chat interface with citation-backed answers.
 
+## Deploy
+
+[![Deploy with EdgeOne Pages](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/makers/new?template=rag-agent&from=within&fromAgent=1&agentLang=python)
+
 ## Features
 
 - **RAG with Citations** — Answers grounded in knowledge base documents with source page references
