@@ -24,15 +24,17 @@
 └────────────────────┬────────────────────────────────┘
                      │ SSE / JSON
 ┌────────────────────▼────────────────────────────────┐
-│  后端 (EdgeOne Makers — Python)             │
-│  agents/chat/index.py        → POST /chat           │
-│  agents/stop/index.py        → POST /stop           │
-│  agents/history/index.py     → POST /history        │
-│  agents/rag-stats/index.py   → GET  /rag-stats      │
+│  后端 (EdgeOne Makers — Python)                      │
+│  agents/             — 有状态的 Agent Functions       │
+│    chat/index.py        → POST /chat（SSE）          │
+│    stop/index.py        → POST /stop                 │
+│    rag-stats/index.py   → GET  /rag-stats            │
+│  cloud-functions/    — 无状态的 cloud functions       │
+│    history/index.py     → POST /history              │
 ├─────────────────────────────────────────────────────┤
-│  核心模块                                            │
+│  核心模块（agents/）                                  │
 │  _agent.py  — RAG Agent 定义                         │
-│  _tools.py  — search_document, fetch_pages 等工具    │
+│  _tools.py  — search_document、fetch_pages           │
 │  _loader.py — 基于文件系统的文档读取器                │
 │  _model.py  — LLM 配置（兼容 OpenAI 接口）           │
 └────────────────────┬────────────────────────────────┘
@@ -43,6 +45,8 @@
 │  {docId}/meta.json + pages/{n}.txt                  │
 └─────────────────────────────────────────────────────┘
 ```
+
+> **为什么后端拆成两个目录？** `agents/` 跑的是有状态、长连接的路由（活跃 SSE 流、按会话维度的 abort 信号）；`cloud-functions/` 跑的是只读 `context.agent.store` 的短小无状态路由。两者拆开之后，历史记录拉取就不会和正在进行的对话争抢同一会话的锁。
 
 ## 快速开始
 
@@ -114,12 +118,12 @@ agents/_data/
 
 ## API 接口
 
-| 接口 | 方法 | 说明 |
-|------|------|------|
-| `/chat` | POST | 流式 RAG 聊天，使用文档搜索工具 |
-| `/stop` | POST | 中止正在运行的 Agent |
-| `/history` | POST | 获取对话历史 |
-| `/rag-stats` | GET | 知识库统计信息 |
+| 接口 | 方法 | 所在目录 | 说明 |
+|------|------|----------|------|
+| `/chat` | POST | `agents/` | 流式 RAG 聊天，使用文档搜索工具 |
+| `/stop` | POST | `agents/` | 中止正在运行的 Agent |
+| `/rag-stats` | GET | `agents/` | 知识库统计信息 |
+| `/history` | POST | `cloud-functions/` | 获取对话历史 |
 
 ## SSE 流协议
 
@@ -147,18 +151,20 @@ rag-agent/
 │       ├── RagChat.tsx           # 聊天 UI（流式渲染）
 │       ├── CitationCard.tsx      # 引用来源展示
 │       └── KnowledgeBaseSummary.tsx
-├── agents/                       # 后端 (EdgeOne Makers)
+├── agents/                       # 有状态的 EdgeOne Makers Agent Functions
 │   ├── _agent.py                 # Agent 定义
-│   ├── _tools.py                 # RAG 工具（搜索、获取页面）
+│   ├── _tools.py                 # RAG 工具（search_document、fetch_pages）
 │   ├── _loader.py                # 文档数据读取器
 │   ├── _model.py                 # LLM 配置
 │   ├── _data/                    # 生成的知识库数据
 │   ├── chat/
-│   │   ├── index.py              # POST /chat 接口
+│   │   ├── index.py              # POST /chat（SSE 流式）
 │   │   └── _stream.py            # 流式处理工具
-│   ├── stop/index.py             # 停止生成接口
-│   ├── history/index.py          # 历史记录接口
-│   └── rag-stats/index.py        # 统计信息接口
+│   ├── stop/index.py             # POST /stop — 中断正在运行的 agent
+│   └── rag-stats/index.py        # GET /rag-stats — 知识库统计
+├── cloud-functions/              # 无状态的 EdgeOne Pages Python cloud functions
+│   ├── history/index.py          # POST /history — 拉取对话消息
+│   └── _logger.py                # 日志工具
 ├── public/prepare-rag/           # RAG 数据准备
 │   ├── prepare_rag_data.py       # PDF → 结构化文本
 │   ├── requirements.txt

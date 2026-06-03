@@ -24,25 +24,29 @@ An enterprise RAG (Retrieval-Augmented Generation) agent built with **React + Vi
 └────────────────────┬────────────────────────────────┘
                      │ SSE / JSON
 ┌────────────────────▼────────────────────────────────┐
-│  Backend (EdgeOne Makers — Python)          │
-│  agents/chat/index.py        → POST /chat           │
-│  agents/stop/index.py        → POST /stop           │
-│  agents/history/index.py     → POST /history        │
-│  agents/rag-stats/index.py   → GET  /rag-stats      │
+│  Backend (EdgeOne Makers — Python)                  │
+│  agents/             — stateful Agent Functions     │
+│    chat/index.py        → POST /chat (SSE)          │
+│    stop/index.py        → POST /stop                │
+│    rag-stats/index.py   → GET  /rag-stats           │
+│  cloud-functions/    — stateless cloud functions    │
+│    history/index.py     → POST /history             │
 ├─────────────────────────────────────────────────────┤
-│  Core Modules                                       │
+│  Core Modules (agents/)                             │
 │  _agent.py  — RAG Agent definition                  │
-│  _tools.py  — search_document, fetch_pages, etc.    │
+│  _tools.py  — search_document, fetch_pages          │
 │  _loader.py — Filesystem-based document reader      │
 │  _model.py  — LLM configuration (OpenAI-compatible) │
 └────────────────────┬────────────────────────────────┘
                      │
 ┌────────────────────▼────────────────────────────────┐
-│  Knowledge Base (agents/_data/)                      │
+│  Knowledge Base (agents/_data/)                     │
 │  Generated from PDFs by prepare_rag_data.py         │
 │  {docId}/meta.json + pages/{n}.txt                  │
 └─────────────────────────────────────────────────────┘
 ```
+
+> **Why two backend folders?** `agents/` holds long-running, stateful routes (live SSE stream, per-conversation abort signal); `cloud-functions/` holds short, stateless routes that just read `context.agent.store`. Splitting them keeps history requests from contending with an active chat for the per-conversation lock.
 
 ## Quick Start
 
@@ -114,12 +118,12 @@ The sample knowledge base includes:
 
 ## API Endpoints
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/chat` | POST | Streaming RAG chat with document search tools |
-| `/stop` | POST | Abort active agent run |
-| `/history` | POST | Retrieve conversation history |
-| `/rag-stats` | GET | Knowledge base statistics |
+| Endpoint | Method | Side | Description |
+|----------|--------|------|-------------|
+| `/chat` | POST | `agents/` | Streaming RAG chat with document search tools |
+| `/stop` | POST | `agents/` | Abort active agent run |
+| `/rag-stats` | GET | `agents/` | Knowledge base statistics |
+| `/history` | POST | `cloud-functions/` | Retrieve conversation history |
 
 ## SSE Stream Protocol
 
@@ -147,18 +151,20 @@ rag-agent/
 │       ├── RagChat.tsx           # Chat UI with streaming
 │       ├── CitationCard.tsx      # Source citation display
 │       └── KnowledgeBaseSummary.tsx
-├── agents/                       # Backend (EdgeOne Makers)
+├── agents/                       # Stateful EdgeOne Makers Agent Functions
 │   ├── _agent.py                 # Agent definition
-│   ├── _tools.py                 # RAG tools (search, fetch)
+│   ├── _tools.py                 # RAG tools (search_document, fetch_pages)
 │   ├── _loader.py                # Document data reader
 │   ├── _model.py                 # LLM configuration
 │   ├── _data/                    # Generated knowledge base
 │   ├── chat/
-│   │   ├── index.py              # POST /chat endpoint
+│   │   ├── index.py              # POST /chat (SSE streaming)
 │   │   └── _stream.py            # Streaming utilities
-│   ├── stop/index.py             # Stop generation endpoint
-│   ├── history/index.py          # History endpoint
-│   └── rag-stats/index.py        # Stats endpoint
+│   ├── stop/index.py             # POST /stop — abort active agent run
+│   └── rag-stats/index.py        # GET /rag-stats — knowledge base stats
+├── cloud-functions/              # Stateless EdgeOne Pages Python cloud functions
+│   ├── history/index.py          # POST /history — load conversation messages
+│   └── _logger.py                # Logger utility
 ├── public/prepare-rag/           # RAG data preparation
 │   ├── prepare_rag_data.py       # PDF → structured text
 │   ├── requirements.txt
