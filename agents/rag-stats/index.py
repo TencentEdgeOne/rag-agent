@@ -1,10 +1,13 @@
 """POST /rag-stats - Knowledge base statistics.
 
-EdgeOne agents/ runtime is POST-only (the platform rejects GET at the
-routing layer with 400 before this handler is invoked). The frontend
-(`src/components/KnowledgeBaseSummary.tsx`) calls this with method:'POST'
-and an empty body — the body is unused; it's purely for the platform
-contract.
+EdgeOne agents/ runtime is POST-only AND requires a real JSON-shaped
+request envelope (Content-Type: application/json + a non-empty body)
+even for read-only endpoints. A bare GET, or a POST with no body, is
+rejected at the routing layer with 400 before this handler is invoked.
+
+The frontend (`src/components/KnowledgeBaseSummary.tsx`) calls this
+with method:'POST', Content-Type:'application/json', body:'{}'.
+The body itself is unused — it's purely to satisfy the platform contract.
 """
 
 from typing import Any

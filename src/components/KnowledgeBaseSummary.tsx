@@ -12,10 +12,15 @@ export default function KnowledgeBaseSummary() {
     setLoading(true);
     setError(null);
     try {
-      // EdgeOne agents/ runtime accepts POST only; even read-only routes
-      // like /rag-stats must be requested with method:'POST'. A GET will
-      // be rejected at the platform layer with 400 before our handler runs.
-      const res = await fetch("/rag-stats", { method: "POST" });
+      // EdgeOne agents/ runtime accepts POST only AND requires the request to
+      // look like a normal JSON POST (Content-Type + JSON body). A bare
+      // `fetch(url, { method: 'POST' })` with no body is rejected at the
+      // platform layer with 400 before our handler runs.
+      const res = await fetch("/rag-stats", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: "{}",
+      });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setStats(data);
