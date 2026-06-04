@@ -65,7 +65,7 @@ rag-agent/
 │   ├── chat/index.py               # POST /chat —— 流式 RAG 聊天
 │   ├── chat/_stream.py             # SSE 流式工具（私有）
 │   ├── stop/index.py               # POST /stop —— 中断当前 agent
-│   ├── rag-stats/index.py          # GET  /rag-stats —— 知识库统计
+│   ├── rag-stats/index.py          # POST /rag-stats —— 知识库统计
 │   ├── _agent.py                   # RAG Agent 定义（私有）
 │   ├── _tools.py                   # search_document、fetch_pages 工具（私有）
 │   ├── _loader.py                  # 文件系统知识库读取（私有）
@@ -106,7 +106,7 @@ rag-agent/
    - `fetch_pages(doc_id, pages)` —— 精确读取页文本用于引用
    最多 6 轮；`_loader.py` 强制在 `Path(__file__).parent / "_data"` 范围内做路径穿越保护。
 4. **流式输出**：handler 推送 SSE 事件 `start`、`text-start`、`text-delta`、`text-end`、`tool-input-available`、`tool-output-available`、`finish`、`error`，前端 `useAgentStream` reducer 将其转成对话气泡 + 引用卡片。
-5. **统计 / 历史 / 中断**：`GET /rag-stats`（在 `agents/`）返回知识库元信息；`POST /history`（在 `cloud-functions/`）走 `context.agent.store.get_messages()` 用于刷新后恢复；`POST /stop` 取消当前 run。
+5. **统计 / 历史 / 中断**：`POST /rag-stats`（在 `agents/`）返回知识库元信息；`POST /history`（在 `cloud-functions/`）走 `context.agent.store.get_messages()` 用于刷新后恢复；`POST /stop` 取消当前 run。
 
 沙箱凭证由运行时自动注入，无需本地配置。`edgeone.json` 中 `agents.timeout` 与 `agents.sandbox.timeout` 均为 300 秒。
 

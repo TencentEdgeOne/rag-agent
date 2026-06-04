@@ -65,7 +65,7 @@ rag-agent/
 │   ├── chat/index.py               # POST /chat — streaming RAG chat
 │   ├── chat/_stream.py             # SSE streaming utilities (private)
 │   ├── stop/index.py               # POST /stop — abort active agent run
-│   ├── rag-stats/index.py          # GET  /rag-stats — knowledge base stats
+│   ├── rag-stats/index.py          # POST /rag-stats — knowledge base stats
 │   ├── _agent.py                   # RAG Agent definition (private)
 │   ├── _tools.py                   # search_document, fetch_pages tools (private)
 │   ├── _loader.py                  # Filesystem knowledge base reader (private)
@@ -106,7 +106,7 @@ End-to-end:
    - `fetch_pages(doc_id, pages)` — reads exact page text for citation
    The agent runs up to 6 turns; `_loader.py` enforces path-traversal-safe filesystem reads under `Path(__file__).parent / "_data"`.
 4. **Streaming** — the handler emits SSE events `start`, `text-start`, `text-delta`, `text-end`, `tool-input-available`, `tool-output-available`, `finish`, `error`. The UI's `useAgentStream` reducer turns those into chat bubbles + citation cards.
-5. **Stats / history / stop** — `GET /rag-stats` (in `agents/`) returns knowledge-base metadata; `POST /history` (in `cloud-functions/`) reads `context.agent.store.get_messages()` to rehydrate after a refresh; `POST /stop` cancels the live run.
+5. **Stats / history / stop** — `POST /rag-stats` (in `agents/`) returns knowledge-base metadata; `POST /history` (in `cloud-functions/`) reads `context.agent.store.get_messages()` to rehydrate after a refresh; `POST /stop` cancels the live run.
 
 Sandbox credentials are injected by the runtime — no local sandbox config is needed. Per `edgeone.json`, both the agent and its sandbox have a 300-second timeout (`agents.timeout`, `agents.sandbox.timeout`).
 

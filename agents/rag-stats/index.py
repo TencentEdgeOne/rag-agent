@@ -1,4 +1,11 @@
-"""GET /rag-stats - Knowledge base statistics."""
+"""POST /rag-stats - Knowledge base statistics.
+
+EdgeOne agents/ runtime is POST-only (the platform rejects GET at the
+routing layer with 400 before this handler is invoked). The frontend
+(`src/components/KnowledgeBaseSummary.tsx`) calls this with method:'POST'
+and an empty body — the body is unused; it's purely for the platform
+contract.
+"""
 
 from typing import Any
 
