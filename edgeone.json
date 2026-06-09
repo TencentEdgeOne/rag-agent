@@ -3,7 +3,7 @@
   "outputDirectory": "dist",
   "agents": {
     "timeout": 300,
-    "framework": "openai-sdk",
+    "framework": "openai-agents-sdk",
     "sandbox": {
       "timeout": 300
     }
