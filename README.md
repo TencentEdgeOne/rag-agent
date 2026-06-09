@@ -26,7 +26,7 @@ A working enterprise-style RAG template: drop PDFs into `public/prepare-rag/file
 |----------|----------|-------------|
 | `AI_GATEWAY_API_KEY` | Yes | Model gateway API key. Use your Makers Models API Key, or any OpenAI-compatible provider key. |
 | `AI_GATEWAY_BASE_URL` | Yes | Gateway base URL. For Makers Models, use `https://ai-gateway.edgeone.link/v1`. |
-| `AI_GATEWAY_MODEL` | No | Model ID. Defaults to `@makers/hy3-preview` (a free built-in model). |
+| `AI_GATEWAY_MODEL` | No | Model ID. Defaults to `@makers/deepseek-v4-flash` (a free built-in model). |
 
 This template follows the OpenAI-compatible standard — point these at Makers Models or any compatible provider.
 
@@ -37,7 +37,7 @@ This template follows the OpenAI-compatible standard — point these at Makers M
 3. Go to **Makers → Models → API Key** and create a key.
 4. Copy it into `AI_GATEWAY_API_KEY`.
 
-The built-in `@makers/hy3-preview` model is free with a usage cap and is suitable for prototyping. For production, bind your own paid provider (BYOK).
+The built-in `@makers/deepseek-v4-flash` model is free with a usage cap and is suitable for prototyping. For production, bind your own paid provider (BYOK).
 
 ## Local Development
 

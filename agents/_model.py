@@ -17,7 +17,7 @@ logger = create_logger("model")
 
 _api_key = os.getenv("AI_GATEWAY_API_KEY", "")
 _base_url = os.getenv("AI_GATEWAY_BASE_URL", "")
-_model_name = os.getenv("AI_GATEWAY_MODEL", "@makers/hy3-preview")
+_model_name = os.getenv("AI_GATEWAY_MODEL", "@makers/deepseek-v4-flash")
 
 if not _api_key or not _base_url:
     logger.error("AI_GATEWAY_API_KEY / AI_GATEWAY_BASE_URL not set")
