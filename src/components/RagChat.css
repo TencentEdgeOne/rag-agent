@@ -208,7 +208,7 @@
   word-break: break-word;
 }
 
-/* 用户消息是纯文本，需要保留换行符；assistant 消息由 react-markdown 渲染成 HTML 元素，不需要 */
+/* User messages are plain text and need to preserve newlines; assistant messages are rendered as HTML elements by react-markdown and don't. */
 .chat-message--user .message-content {
   white-space: pre-wrap;
 }
