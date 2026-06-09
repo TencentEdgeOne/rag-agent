@@ -1,0 +1,38 @@
+谁负责 做什么
+Store（已
+有）
+提供 metadata JSO N 字段 + 浅合并写⼊。约定两个 key：summary（摘要⽂本）、
+summarizedUntil（已摘要到哪条 messageId）
+业务侧（⾃
+⼰写） 决定何时摘要、调便宜模型⽣成摘要、调 updateConversation 写回
+summary / summarizedUntil 是约定 key ⽽⾮ schema，Store 只把它当任意 JSO N 存。你可以
+换名字，只要业务侧前后保持⼀致。
+实现示例
+可以使⽤便宜模型做摘要——压缩 + 保关键事实不需要主模型那种推理能⼒。prompt 中四条要求都不能
+省，否则会出现摘要发散、寒暄混⼊、语⾔乱跳、越摘越⻓等问题。
+async function summarizeWithLLM(previousSummary, newMessages) {
+  const transcript = newMessages
+    .filter(m => m.role === 'user' || m.role === 'assistant')
+    .map(m => `${m.role}: ${
+      typeof m.content === 'string' ? m.content : JSON.stringify(m.content)
+    }`)
+    .join('\n')
+  const prompt = previousSummary
+    ? ` 下⾯是⼀段对话的【已有摘要】和【新增对话】，请合并成⼀段新摘要。
+要求：
+- 保留：关键事实、⽤户偏好、未完成的任务、重要的上下⽂设定
+- 删除：寒暄、确认收到、重复内容、⼯具调⽤细节
+- ⽤与最近对话相同的语⾔书写
+- 控制在  500 字内
+【已有摘要】
+${previousSummary}
+【新增对话】
+${transcript}
+【新摘要】 `
+    : ` 请把下⾯的对话总结成⼀段摘要。
+要求：
+- 保留：关键事实、⽤户偏好、未完成的任务、重要的上下⽂设定
+- 删除：寒暄、确认收到、重复内容、⼯具调⽤细节
+- ⽤与对话相同的语⾔书写
+- 控制在  500 字内
+【对话】

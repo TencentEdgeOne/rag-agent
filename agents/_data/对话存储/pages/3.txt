@@ -1,0 +1,27 @@
+响。
+通⽤ API
+⽅法总览
+⽅法均挂在 context.store 上。Node 端使⽤对象解构⼊参（camelCase），Python 端使⽤关键字
+参数（snake_case），语义完全⼀致。
+Node ⽅法 Python ⽅法 描述
+appendMessage append_message 追加⼀条消息；对话不存在时⾃动创建
+getMessages get_messages 拉消息列表，⽀持游标分⻚
+updateMessage update_message 覆盖式更新指定消息
+deleteMessage delete_message 删除单条消息
+clearMessages clear_messages 清空消息但保留对话元信息
+getConversation get_conversation 取对话元信息
+listConversations list_conversations 列对话，按 lastMessageAt 倒序
+updateConversation update_conversation 更新对话元信息，浅合并
+deleteConversation delete_conversation 删除整个对话（不可恢复）
+toAnthropicMessages to_anthropic_messages 把消息列表转成 Anthropic Messages 格式
+toOpenAIInput to_openai_input 把消息列表转成 O penAI Chat Completions
+格式
+appendMessage / append_message
+向指定对话追加⼀条消息，对话不存在时⾃动创建，并按需建⽴⽤户索引。
+参数
+Parameter Type Required Description
+conversationId /
+conversation_id string Yes 业务侧对话 ID，⻓度 ≤ 256
+字节
+role 'user' \| 'assistant'
+\| 'system' \| 'tool' Yes 消息⻆⾊

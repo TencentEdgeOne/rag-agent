@@ -1,0 +1,29 @@
+返回值
+ConversationMeta —— 包含 conversationId / createdAt / lastMessageAt / messageCount /
+metadata 等字段。
+TS 示例：
+const meta = await context.store.getConversation({
+  conversationId: context.conversation_id,
+})
+console.log(meta.messageCount, meta.metadata?.title)
+Python 示例：
+meta = await context.store.get_conversation(
+    conversation_id=context.conversation_id,
+)
+print(meta.message_count, (meta.metadata or {}).get("title"))
+listConversations / list_conversations
+列对话，按 lastMessageAt 排序，⽀持游标分⻚与按⽤户过滤。
+参数
+Parameter Type Required Description
+limit number No 单⻚条数，默认 20，范围 [1, 100]
+order 'asc' \| 'desc' No 排序⽅向，默认 'desc'（最新优先）
+after string No 游标，传上⼀⻚返回的 nextCursor
+before string No 游标，传上⼀⻚返回的 previousCursor
+userId / user_id string No 仅列该⽤户名下的对话（命中⽤户索引）
+返回值
+ListConversationsResult —— { items, nextCursor, previousCursor }。
+TS 示例：
+const { items, nextCursor } = await context.store.listConversations({
+  userId: 'u_123',
+  limit: 20,
+})

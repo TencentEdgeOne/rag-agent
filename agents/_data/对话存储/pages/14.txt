@@ -1,0 +1,9 @@
+${transcript}
+【摘要】 `
+  const { text } = await generateText({
+    model: openai('gpt-4o-mini'),
+    prompt,
+    maxTokens: 800,
+  })
+  return text.trim()
+}

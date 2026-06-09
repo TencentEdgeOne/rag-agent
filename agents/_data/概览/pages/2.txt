@@ -1,0 +1,27 @@
+项⽬结构
+project/
+  agents/                       ← 会话模式  Runtime （ LLM / Agent 循环）
+    customer-service/
+      index.ts                  → POST /customer-service
+      stop.ts                   → POST /customer-service/stop
+  cloud-functions/              ← 请求模式  Runtime （⾮  LLM 业务）
+    conversations/
+      list.ts                   → GET  /conversations/list   ( 读  store)
+  edgeone.json                  ← 项⽬级配置
+适⽤场景
+对话助⼿：知识库问答、购物下单等多轮交互场景，结合记忆与⼯具调⽤完成连续任务。
+⽂件处理：CSV 解析、PDF/图⽚等多模态⽂件处理，通过沙箱读取并分析⽂件内容。
+定时任务：趋势热点新闻爬取汇总等周期性任务，按调度⾃动采集数据并⽣成结构化报告。
+内容⽣成：博客图⽂、营销活动策划等场景，由多⻆⾊或多步骤协作产出⻓⽂与配图。
+流程编排：深度研究、邮件处理等带状态与分⽀的流程，按节点流转状态、校验与⼈⼯审核。
+编程助⼿：AI ⽹站构建器等场景，在云端沙箱中修改代码并预览运⾏结果
+内置模型
+新⽤户限时赠送 50w Token 试⽤额度，按账号维度计算、所有项⽬共享。使⽤模板部署时⾃动注⼊以下环
+境变量，业务代码通过 context.env 读取即可：
+变量 说明
+AI_GATEWAY_API_KEY ⽹关鉴权 Key，兼容 O penAI 协议
+AI_GATEWAY_BASE_URL ⽹关地址，默认 https://ai-gateway.edgeone.link/v1
+任何兼容 O penAI 协议的 SDK 都能直接对接，切换模型只改 model 字段，⽆需更换 Key，详情可参考
+Models 概览。
+⽤量限制
+Agents

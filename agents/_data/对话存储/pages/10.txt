@@ -1,0 +1,32 @@
+TS 示例：
+await context.store.deleteConversation({
+  conversationId: context.conversation_id,
+})
+Python 示例：
+await context.store.delete_conversation(
+    conversation_id=context.conversation_id,
+)
+toAnthropicMessages / to_anthropic_messages
+把 getMessages 返回的消息列表转成 Anthropic Messages API 的 messages 字段格式。
+参数
+Parameter Type Required Description
+messages Message[] Yes getMessages / get_messages 的返回结果
+返回值
+Array<{ role: string; content: unknown }>—— 可直接作为 anthropic.messages.create({
+messages }) 的⼊参。
+TS 示例：
+const history = await context.store.getMessages({
+  conversationId: context.conversation_id,
+})
+const resp = await anthropic.messages.create({
+  model: 'claude-sonnet-4',
+  max_tokens: 1024,
+  messages: context.store.toAnthropicMessages(history),
+})
+Python 示例：
+history = await context.store.get_messages(
+    conversation_id=context.conversation_id,
+)
+resp = await anthropic_client.messages.create(
+    model="claude-sonnet-4",
+    max_tokens=1024,

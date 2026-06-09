@@ -1,0 +1,35 @@
+Parameter Type Required Description
+conversationId /
+conversation_id string Yes 对话 ID
+limit number No 单⻚条数，默认 20，范围 [1,
+100]
+order 'asc' \|
+'desc' No 排序⽅向，默认
+'asc'（最早优先）
+after string No 游标，取该 messageId之后的消
+息；与 before 互斥
+before string No 游标，取该 messageId之前的消
+息；与 after 互斥
+返回值
+list[Message] —— 消息数组，对话不存在返回 []。
+TS 示例：
+const messages = await context.store.getMessages({
+  conversationId: context.conversation_id,
+  limit: 50,
+})
+const reply = await openai.chat.completions.create({
+  model: 'gpt-4o',
+  messages: context.store.toOpenAIInput(messages),
+})
+Python 示例：
+messages = await context.store.get_messages(
+    conversation_id=context.conversation_id,
+    limit=50,
+)
+reply = await openai_client.chat.completions.create(
+    model="gpt-4o",
+    messages=context.store.to_openai_input(messages),
+)
+updateMessage / update_message
+覆盖式更新⼀条消息，仅传⼊的字段会被覆盖，未传字段保持原值；updatedAt / updated_at ⾃动刷
+新。

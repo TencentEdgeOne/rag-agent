@@ -1,0 +1,26 @@
+Parameter Type Required Description
+messageId / message_id string Yes ⽬标消息 ID
+TS 示例：
+await context.store.deleteMessage({
+  conversationId: context.conversation_id,
+  messageId: 'msg_abc123',
+})
+Python 示例：
+await context.store.delete_message(
+    conversation_id=context.conversation_id,
+    message_id="msg_abc123",
+)
+clearMessages / clear_messages
+清空对话中所有消息，但保留ConversationMeta，彻底删除请⽤ deleteConversation。
+参数
+Parameter Type Required Description
+conversationId / conversation_id string Yes 对话 ID
+TS 示例：
+await context.store.clearMessages({ conversationId: context.conversation_id })
+Python 示例：
+await context.store.clear_messages(conversation_id=context.conversation_id)
+getConversation / get_conversation
+获取对话元信息。
+参数
+Parameter Type Required Description
+conversationId / conversation_id string Yes 对话 ID

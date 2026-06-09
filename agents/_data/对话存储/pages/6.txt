@@ -1,0 +1,30 @@
+参数
+Parameter Type Required Description
+conversationId /
+conversation_id string Yes 对话 ID
+messageId / message_id string Yes ⽬标消息 ID
+content string \| string[]
+\| object No 新正⽂；不传则保持原值
+metadata Record<string, any> No 整体覆盖 metadata（⾮合
+并）；不传则保持原值
+返回值
+Message —— 更新后的完整消息对象。
+TS 示例：
+const updated = await context.store.updateMessage({
+  conversationId: context.conversation_id,
+  messageId: 'msg_abc123',
+  content: 'corrected answer',
+  metadata: { edited: true },
+})
+Python 示例：
+updated = await context.store.update_message(
+    conversation_id=context.conversation_id,
+    message_id="msg_abc123",
+    content="corrected answer",
+    metadata={"edited": True},
+)
+deleteMessage / delete_message
+删除单条消息。
+参数
+Parameter Type Required Description
+conversationId / conversation_id string Yes 对话 ID

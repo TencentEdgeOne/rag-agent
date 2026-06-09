@@ -1,0 +1,32 @@
+Parameter Type Required Description
+content string \| string[] \|
+object Yes
+消息正⽂，⽀持纯⽂本 / 字
+符串数组 / 多模态 dict，序
+列化后 ≤ 50MB
+metadata Record<string, any> No 业务⾃定义字段（token 数、
+tool_call、来源标签等）
+userId / user_id string No 关联⽤户，传⼊后写⼊⽤户索
+引，便于按⽤户列对话
+返回值
+新消息的 messageId / message_id（形如 msg_xxx）。
+TS 示例：
+const messageId = await context.store.appendMessage({
+  conversationId: context.conversation_id,
+  role: 'user',
+  content: context.request.body.message,
+  userId: context.request.body.userId,
+  metadata: { source: 'web' },
+})
+Python 示例：
+message_id = await context.store.append_message(
+    conversation_id=context.conversation_id,
+    role="user",
+    content=context.request.body["message"],
+    user_id=context.request.body.get("user_id"),
+    metadata={"source": "web"},
+)
+getMessages / get_messages
+拉取指定对话的消息列表，⽀持游标分⻚。对话不存在不抛异常，返回空列表，默认按时间正序
+（order='asc'，最早优先），⽅便直接拼 prompt。
+参数

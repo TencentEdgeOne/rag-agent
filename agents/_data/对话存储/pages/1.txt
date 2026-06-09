@@ -1,0 +1,31 @@
+context.store 是 Makers Agent 内置的对话存储能⼒，零配置即可保存与读取对话历史，并为 Claude
+/ O penAI / L angGraph / DeepAgents Agent 框架提供原⽣适配。
+底层基于平台的 Blob 存储，Node 与 Python 两端 API 完全镜像（JavaScript camelCase、Python
+snake_case），框架接⼊章节以 TypeScript 为主，每节附 Python 等价示例。
+在两种 Runtim e 中使⽤
+store 在 agents/ 与 cloud-functions/ 两类⽬录的代码中指向同⼀份数据。
+⽬录 使⽤⼊⼝ 典型⽤途
+agents/ context.store L L M 对话主路径，追加消息、Checkpointer
+cloud-functions/ context.agent.store 对话列表 API、消息查询
+框架接⼊
+context.store 同时提供框架原⽣适配器和通⽤ API。
+framework 推荐⽤法 ⼊⼝（TS）
+claude-sdk 框架原⽣ SessionStore context.store.claudeSessionStore()
+openai-sdk 框架原⽣ Session context.store.openaiSession(sessionId)
+langgraph 框架原⽣ Checkpointer +
+BaseStore
+context.store.langgraphCheckpointer /
+.langgraphStore
+deepagents
+复⽤ L angGraph
+Checkpointer +
+BaseStore
+context.store.langgraphCheckpointer /
+.langgraphStore
+crewai 暂不⽀持，使⽤通⽤ API
+⾃管 -
+Claude Agent SDK
+claudeSessionStore() 返回 SessionStore 协议实现（append / load / listSessions /
+delete / listSubkeys）。
+// typescript
+const sessionStore = context.store.claudeSessionStore()

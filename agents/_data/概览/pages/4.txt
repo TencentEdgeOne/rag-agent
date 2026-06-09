@@ -1,0 +1,13 @@
+概念 说明
+context.store 会话级对话存储，按 conversation_id ⾃动归属，⽀持五⼤框架原⽣消
+息对象
+context.tools ⾯向 L L M 的⼯具清单，按 framework 字段⾃动封装为⽬标框架可直接消
+费的形态
+context.sandbox 沙箱原⼦ API（commands / files / browser / runCode），⽤于在隔
+离环境中执⾏命令、读写⽂件、操作浏览器与运⾏代码
+context.tracer O penTelemetry ⻛格的⼿动插桩⼊⼝，与平台⾃动采集的 trace 同链路
+context.agent.store 同 context.store，暴露在 Cloud Functions
+conversation_id ⼀次会话的唯⼀标识，是路由、Store 归属与 Sandbox 实例归属的 key
+run_id ⼀次执⾏的唯⼀标识，trace、⽇志与 stop 操作都围绕它组织
+framework edgeone.json 中的字段，决定 context.tools / context.store 的框
+架适配形态

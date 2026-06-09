@@ -1,0 +1,31 @@
+// python
+session_store = context.store.claude_session_store()
+O penAI Agents SDK
+openaiSession(sessionId, { maxItems }) 返回 O penAI Agents SDK 的 Session 协议实现
+（getItems / addItems / popItem / clearSession）。
+// typescript
+const session = context.store.openaiSession(context.conversation_id)
+// python
+session = context.store.openai_session(context.conversation_id)
+LangGraph
+langgraphCheckpointer 实现 BaseCheckpointSaver（getTuple / list / put / putWrites），
+langgraphStore 实现 BaseStore（get / put / search / listNamespaces / batch），
+BaseStore的 search暂不⽀持按语义检索。
+// typescript
+const checkpointer = context.store.langgraphCheckpointer
+const store = context.store.langgraphStore
+// python
+checkpointer = context.store.langgraph_checkpointer
+store = context.store.langgraph_store
+DeepAgents
+DeepAgents 基于 L angGraph 构建，直接复⽤ langgraphCheckpointer + langgraphStore 两个适配
+器。
+// typescript
+const checkpointer = context.store.langgraphCheckpointer
+const store = context.store.langgraphStore
+// python
+checkpointer = context.store.langgraph_checkpointer
+store = context.store.langgraph_store
+CrewAI
+CrewAI ⾃带 Memory 强依赖向量库（默认 L anceDB + embedder），context.store暂时未建向量层，
+对话历史⽤context.store 通⽤ API ⾃管即可，多⻆⾊编排、任务链、⼯具调⽤等核⼼能⼒完全不受影

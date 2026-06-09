@@ -1,9 +1,0 @@
-1. What is EdgeOne Pages
-EdgeOne Pages is a modern edge computing platform designed for deploying full-stack web applications. It
-combines the speed of a global CDN with the flexibility of serverless functions, allowing developers to build
-and deploy applications that run close to their users worldwide.
-The platform supports static site hosting, server-side rendering (SSR), and API endpoints through its Pages
-Functions feature. Applications deployed on EdgeOne Pages benefit from automatic HTTPS, global edge
-caching, and sub-millisecond cold start times.
-EdgeOne Pages is particularly well-suited for AI-powered applications, real-time collaboration tools, and
-content-heavy websites that require both fast static delivery and dynamic server-side processing.

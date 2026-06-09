@@ -1,0 +1,39 @@
+Makers Agent 是开箱即⽤的 Agent 开发平台，开发者专注业务逻辑，部署后即可获得 Agent 运⾏时、沙
+箱⼯具、对话记忆、本地可调试的全链路追踪与内置模型完整能⼒。
+平台优势
+开箱即⽤：Agent 运⾏所需的⼯具、记忆、可观测、模型，部署后全部⾃动⽣效，⽆需安装和对接。
+灵活开放：框架任选（Claude / O penAI / L angGraph / CrewAI），不限制语⾔（JS / Python）。
+⽆缝接⼊：Web 与 Agent 共⽤同⼀个项⽬，账号、部署、监控、域名统⼀管理。
+核⼼能⼒
+能⼒ 说明
+托管运⾏
+时 承载 L L M 调⽤、Agent 循环编排与业务逻辑，按会话路由、⾃动扩缩容
+沙箱⼯具 ⾯向 L L M 和开发者视⻆提供两层独⽴但互通的 API，浏览器、代码执⾏、Shell、⽂件操
+作都在独⽴沙箱环境运⾏
+对话存储 适配各个 Agent 框架提供记忆管理能⼒，提供通⽤ API 管理会话、消息
+可观测 调⽤链路⾃动采集，零侵⼊插桩，本地 / 云端⾯板统⼀查看链路数据
+内置模型 ⾃动注⼊模型 key，限时每⽉享受免费模型配额
+运⾏模式
+平台提供两种 Runtime，按⽬录区分⽤途，同⼀项⽬可任意组合。
+⽬录 Runtime 模式 ⽤途 注⼊的 context
+agents/
+会话模式（同
+conversation_id 粘性路由到
+同实例，复⽤内存状态）
+L L M 调⽤、
+Agent 循环、⻓
+任务编排
+request / env / store
+/ tools / sandbox /
+tracer
+cloud-
+functions/
+请求模式（⽆状态，每请求⼀个
+执⾏环境，弹性扩缩容）
+⾮ L L M 业务逻
+辑：数据查询、
+辅助 API 等
+request / env /
+agent.store
+设计意图：会话模式的开销只花在真正需要内存复⽤的 Agent 路径上，普通 API ⾛请求模式更便宜也
+更易扩展。cloud-functions 仍可读 Store，⽅便在对话列表查询等场景⾥访问历史.

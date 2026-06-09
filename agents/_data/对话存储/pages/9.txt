@@ -1,0 +1,29 @@
+Python 示例：
+result = await context.store.list_conversations(user_id="u_123", limit=20)
+items, next_cursor = result.items, result.next_cursor
+updateConversation / update_conversation
+浅合并 metadata：同 key 覆盖、不同 key 保留。
+参数
+Parameter Type Required Description
+conversationId /
+conversation_id string Yes 对话 ID
+metadata Record<string,
+any> Yes 待合并字段；value 为 null /
+None 表示删除该 key
+返回值
+ConversationMeta —— 合并后的对话元信息。
+TS 示例：
+await context.store.updateConversation({
+  conversationId: context.conversation_id,
+  metadata: { title: ' 产品咨询 ', tag: null },  // 设标题，删  tag
+})
+Python 示例：
+await context.store.update_conversation(
+    conversation_id=context.conversation_id,
+    metadata={"title": " 产品咨询 ", "tag": None},
+)
+deleteConversation / delete_conversation
+删除整个对话，同步清理消息索引、会话元信息和全局会话索引，不可恢复。
+参数：
+Parameter Type Required Description
+conversationId / conversation_id string Yes 对话 ID

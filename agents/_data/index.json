@@ -1,39 +1,39 @@
 {
-  "generated_at": "2026-06-01T08:27:44.610963+00:00",
+  "generated_at": "2026-06-09T08:43:10.557452+00:00",
   "documents": [
     {
-      "docId": "EdgeOne-Makers-Store",
+      "docId": "对话存储",
       "meta": {
-        "doc_name": "EdgeOne-Makers-Store",
+        "doc_name": "对话存储",
         "doc_description": "",
         "type": "pdf",
-        "page_count": 9,
+        "page_count": 14,
         "status": "completed",
-        "created": "2026-06-01T08:27:44.601471+00:00"
+        "created": "2026-06-09T08:43:10.367522+00:00"
       },
       "hasStructure": false,
-      "pages": 9,
-      "metaBytes": 175,
+      "pages": 14,
+      "metaBytes": 168,
       "structureBytes": 0,
-      "pageBytes": 14975,
-      "totalBytes": 15150
+      "pageBytes": 16219,
+      "totalBytes": 16387
     },
     {
-      "docId": "EdgeOne-Pages-Platform-Guide",
+      "docId": "概览",
       "meta": {
-        "doc_name": "EdgeOne-Pages-Platform-Guide",
+        "doc_name": "概览",
         "doc_description": "",
         "type": "pdf",
-        "page_count": 7,
+        "page_count": 4,
         "status": "completed",
-        "created": "2026-06-01T08:27:44.610243+00:00"
+        "created": "2026-06-09T08:43:10.556924+00:00"
       },
       "hasStructure": false,
-      "pages": 7,
-      "metaBytes": 183,
+      "pages": 4,
+      "metaBytes": 161,
       "structureBytes": 0,
-      "pageBytes": 5719,
-      "totalBytes": 5902
+      "pageBytes": 5422,
+      "totalBytes": 5583
     }
   ]
 }

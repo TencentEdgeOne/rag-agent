@@ -1,0 +1,33 @@
+messages=context.store.to_anthropic_messages(history),
+)
+toOpenAIInput / to_openai_input
+把 getMessages 返回的消息列表转成 O penAI Chat Completions API 的 messages 字段格式，保留
+role ∈ user / assistant / system / tool，content 透传。
+参数
+Parameter Type Required Description
+messages Message[] Yes getMessages / get_messages 的返回结果
+返回值
+Array<{ role: string, content: any }> —— 可直接作为 openai.chat.completions.create({
+messages }) 的⼊参。
+TS 示例：
+const history = await context.store.getMessages({
+  conversationId: context.conversation_id,
+})
+const resp = await openai.chat.completions.create({
+  model: 'gpt-4o',
+  messages: context.store.toOpenAIInput(history),
+})
+Python 示例：
+history = await context.store.get_messages(
+    conversation_id=context.conversation_id,
+)
+resp = await openai_client.chat.completions.create(
+    model="gpt-4o",
+    messages=context.store.to_openai_input(history),
+)
+数据结构
+interface Message {
+  messageId: string                       // msg_xxx （ appendMessage ⾃动⽣成）
+  role: 'user' | 'assistant' | 'system' | 'tool'
+  content: any                            // string / array / object （多模态）
+  createdAt: number                       // ms 时间戳

@@ -1,0 +1,30 @@
+metadata?: Record<string, any>          // ⾃定义（ token 数、 tool_call 等）
+  updatedAt?: number                      // 仅  updateMessage 后存在
+}
+interface ConversationMeta {
+  conversationId: string
+  createdAt: number                       // ms 时间戳
+  lastMessageAt: number                   // ms 时间戳
+  messageCount: number
+  metadata?: Record<string, any>          // 业务⾃定义（标题、⽤户、标签等）
+}
+interface ListConversationsResult {
+  items: ConversationMeta[]
+  nextCursor?: string                     // 下⼀⻚游标，传给  after 参数
+  previousCursor?: string                 // 上⼀⻚游标，传给  before 参数
+}
+Python 端字段为 message_id / conversation_id / created_at / last_message_at /
+message_count / next_cursor / previous_cursor，整体形态⼀致。
+限制与配额
+项 默认 超限⾏为
+conversation_id ⻓度 ≤ 256 字符 抛 MemoryValidationError
+单条 content ⼤⼩ ≤ 50MB（序列化后） 抛 MemoryValidationError
+单对话最⼤消息数 10000 抛 MemoryQuotaExceededError
+limit 上限 100 抛 MemoryValidationError
+limit 下限 1 抛 MemoryValidationError
+单条 content 超⼤（⻓⽂档、图⽚原始数据）建议放对象存储，传 URL  进消息。
+对话摘要
+getMessages 单次最多取 100 条，⻓对话下推荐做法是保留最近 N 条原⽂ + 早期内容压成⼀段摘要，每
+次请求时从 Store 拼装回 prompt。Store 本身不调 L L M、不⽣成摘要，只提供
+ConversationMeta.metadata 这个 JSO N 容器。
+职责切分
