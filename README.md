@@ -85,7 +85,7 @@ rag-agent/
 │       ├── CitationCard.tsx        # Source citation display
 │       └── KnowledgeBaseSummary.tsx
 ├── package.json
-├── edgeone.json                     # framework=openai-sdk, agents.timeout=300, sandbox.timeout=300
+├── edgeone.json                     # framework=openai-agents-sdk, agents.timeout=300, sandbox.timeout=300
 └── vite.config.ts
 ```
 

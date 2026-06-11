@@ -4,7 +4,7 @@
 
 **Framework：** OpenAI Agents SDK · **Category：** File Processing <!-- TODO: confirm --> · **Language：** Python
 
-[![Deploy to EdgeOne Makers](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/makers/new?template=rag-agent&from=within&fromAgent=1&agentLang=python)
+[![Deploy to EdgeOne Makers](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://console.cloud.tencent.com/edgeone/pages/new?template=rag-agent)
 
 <!-- ![preview](./assets/preview.png)  TODO: confirm -->
 
@@ -85,7 +85,7 @@ rag-agent/
 │       ├── CitationCard.tsx        # 来源引用展示
 │       └── KnowledgeBaseSummary.tsx
 ├── package.json
-├── edgeone.json                     # framework=openai-sdk，agents.timeout=300，sandbox.timeout=300
+├── edgeone.json                     # framework=openai-agents-sdk，agents.timeout=300，sandbox.timeout=300
 └── vite.config.ts
 ```
 
