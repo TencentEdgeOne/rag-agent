@@ -115,9 +115,9 @@ rag-agent/
 
 ## 资源
 
-- [EdgeOne Makers Agents 文档](https://pages.edgeone.ai/document/agents)
-- [EdgeOne Makers 快速开始](https://pages.edgeone.ai/document/agents-quickstart)
-- [Makers Models](https://pages.edgeone.ai/document/models)
+- [EdgeOne Makers Agents 文档](https://cloud.tencent.com/document/product/1552/132759)
+- [EdgeOne Makers 快速开始](https://cloud.tencent.com/document/product/1552/132786)
+- [Makers Models](https://cloud.tencent.com/document/product/1552/132748)
 
 ## License
 
